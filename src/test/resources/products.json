@@ -1,0 +1,22 @@
+[
+  {
+    "name": "iPhone16",
+    "description": "The best phone ever made",
+    "price": 1600.0
+  },
+  {
+    "name": "Samsung Soundbar",
+    "description": "The new definition of sound",
+    "price": 600.0
+  },
+  {
+    "name": "MacBook Pro",
+    "description": "For the professionals to work",
+    "price": 600.0
+  },
+  {
+    "name": "LG 43\" Full HD LED TV - 43LF5100",
+    "description": "The LG LF5100 Edge Lit LED TV has a sleek and slim profile with the benefit of bright and clear colour detail and energy efficiency.",
+    "price": 600.0
+  }
+]

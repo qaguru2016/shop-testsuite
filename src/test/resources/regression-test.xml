@@ -1,0 +1,10 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+
+<suite name="Regression Suite" verbose="1" >
+    <test name="ShopAPI Tests">
+        <classes>
+            <class name="ca.qaguru.shoptestsuite.tests.ProductAPITests"/>
+        </classes>
+    </test>
+
+</suite>
