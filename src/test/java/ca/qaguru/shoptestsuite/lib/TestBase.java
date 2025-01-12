@@ -50,7 +50,6 @@ public class TestBase {
             // Access property values by key
             env = properties.getProperty("env");
             baseUri = properties.getProperty("base-uri");
-
             // Print the property values
             System.out.println("Environment: " + env);
             System.out.println("Base URI: " + baseUri);

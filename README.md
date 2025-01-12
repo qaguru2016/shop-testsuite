@@ -5,6 +5,6 @@ This is automated test suite for shop webservice project.
 * Run the shop application - java -jar shop.jar
 
 ## Executing the testsuite from command line
-* mvn clean package -Pdev
+* mvn clean test -Pdev
 
 

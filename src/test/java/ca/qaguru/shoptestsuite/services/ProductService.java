@@ -81,7 +81,7 @@ public class ProductService extends ServiceBase {
         .when()
                 .put("/products/{productId}")
                 .then().log().all()
-                .assertThat().statusCode(HttpStatus.SC_NO_CONTENT);
+                .assertThat().statusCode(expStatusCode);
         return this;
     }
 
