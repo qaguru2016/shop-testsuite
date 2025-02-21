@@ -17,7 +17,6 @@ import java.util.UUID;
 
 @Slf4j
 public class ProductAPITests extends TestBase {
-
     @Test(description = "Save a product")
     public void validateSavingAProduct(){
         Product product = Product.builder()
@@ -104,7 +103,7 @@ public class ProductAPITests extends TestBase {
         productService
                 .saveNewProduct(product,HttpStatus.SC_CREATED)
                 .deleteProduct(productService.getProductUuid(),HttpStatus.SC_NO_CONTENT)
-                .findProductById(productService.getProductUuid(), HttpStatus.SC_INTERNAL_SERVER_ERROR,null);
+                .findProductById(productService.getProductUuid(), HttpStatus.SC_NOT_FOUND,null);
     }
     @Test
     public void validateFindAllProducts(){

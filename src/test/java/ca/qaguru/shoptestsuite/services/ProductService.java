@@ -11,7 +11,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.http.HttpStatus;
-//import org.apache.tools.ant.taskdefs.condition.Http;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -30,18 +29,29 @@ import static org.testng.Assert.assertTrue;
 @AllArgsConstructor
 public class ProductService extends ServiceBase {
     private UUID productUuid;
-
+    private String jwtToken;
     @Builder
     public ProductService(RequestSpecification requestSpecification, UUID productUuid) {
         super(requestSpecification);
         this.productUuid = productUuid;
+        jwtToken = getJwtToken("user1", "password1");
+
+    }
+    private String getJwtToken(String username, String password) {
+        Response response = given()
+                .param("username", username)
+                .param("password", password)
+                .when()
+                .post("/api/v1/auth/login");
+
+        return response.getBody().asString();
     }
 
     public ProductService saveNewProduct(Product product, int expStatusCode) {
-
+//        String jwtToken = getJwtToken("user1", "password1");
         ValidatableResponse response = given()
                 .spec(requestSpecification)
-                //.auth().basic(userInfo.getUsername(),userInfo.getPassword())
+                .header("Authorization", "Bearer " + jwtToken)  // Set the Bearer token in the header
                 .body(product)
                 .when()
                 .post("/products")
@@ -61,6 +71,7 @@ public class ProductService extends ServiceBase {
 
     public ProductService findProductById(UUID uuid,int expStatusCode, Product expProduct) {
         ExtractableResponse<Response> response = given().spec(requestSpecification)
+                .header("Authorization", "Bearer " + jwtToken)
                 .when()
                 .get("/products/"+uuid)
                 .then().log().all()
@@ -76,6 +87,7 @@ public class ProductService extends ServiceBase {
 
     public ProductService updateProduct(UUID uuid, Product product, int expStatusCode) {
         given().spec(requestSpecification)
+                .header("Authorization", "Bearer " + jwtToken)
                 .body(product)
                 .pathParam("productId",uuid)
         .when()
@@ -87,6 +99,7 @@ public class ProductService extends ServiceBase {
 
     public ProductService deleteProduct(UUID uuid, int expStatusCode) {
         given().spec(requestSpecification)
+                .header("Authorization", "Bearer " + jwtToken)
                 .pathParam("productId",uuid)
                 .when()
                 .delete("/products/{productId}")
@@ -99,6 +112,7 @@ public class ProductService extends ServiceBase {
     public ProductService findAllProducts(int expStatusCode, List<Product> expProducts) {
         ExtractableResponse<Response> response = given().spec(requestSpecification)
                 .when()
+                .header("Authorization", "Bearer " + jwtToken)
                 .get("/products")
                 .then().log().all()
                 .assertThat().statusCode(expStatusCode)

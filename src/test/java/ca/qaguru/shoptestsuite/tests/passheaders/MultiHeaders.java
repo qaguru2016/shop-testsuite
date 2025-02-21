@@ -1,0 +1,34 @@
+package ca.qaguru.shoptestsuite.tests.passheaders;
+
+import io.restassured.builder.RequestSpecBuilder;
+import io.restassured.filter.log.LogDetail;
+import io.restassured.specification.RequestSpecification;
+import org.apache.http.HttpStatus;
+import org.testng.annotations.Test;
+
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.CoreMatchers.containsString;
+
+public class MultiHeaders {
+    @Test
+    public void saveAProduct() {
+        RequestSpecification requestSpecification = new RequestSpecBuilder()
+                .log(LogDetail.ALL)
+                .setBaseUri("http://localhost:8080")
+                .setBasePath("api/v1/products")
+                .build();
+        String payload = "{\"name\": \"Fusion Backpack\", \"description\": \"Comfy travel bag\", \"price\": 80}";
+        given()
+                .spec(requestSpecification)
+                .headers(
+                        "Authorization", "Bearer your_token_here",
+                        "Content-Type", "application/json"
+                )
+                .body(payload)
+                .when()
+                .post()
+                .then().log().all()
+                .assertThat().statusCode(HttpStatus.SC_CREATED)
+                .header("Location",containsString("/api/v1/products/"));
+    }
+}
